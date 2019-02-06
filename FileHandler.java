@@ -15,11 +15,7 @@ public class FileHandler {
 
 	public static String nl = System.getProperty("line.separator");
 	
-	public static void checkForFilesAndCreateIfNone() throws IOException {
-		checkFileAndCreateIfNone("Accounts");
-	}
-	
-	private static void checkFileAndCreateIfNone(String filename) throws IOException {
+	public static void checkFileAndCreateIfNone(String filename) throws IOException {
 		File f = new File(filename + ".txt");
 		if (!f.exists())
 				f.createNewFile();

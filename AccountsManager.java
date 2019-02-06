@@ -1,5 +1,7 @@
 package sss;
 
+import java.io.IOException;
+
 public class AccountsManager {
 	
 	// A part of BeanBoyBot
@@ -11,7 +13,8 @@ public class AccountsManager {
 	private static String botOauth;
 	private static String nl = System.getProperty("line.separator");
 	
-	public static void updateAll() {
+	public static void updateAll() throws IOException {
+		FileHandler.checkFileAndCreateIfNone("Accounts");
 		updateChannel();
 		updateBotName();
 		updateBotOauth();

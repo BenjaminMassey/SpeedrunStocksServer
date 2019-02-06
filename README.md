@@ -21,7 +21,7 @@ http://www.jibble.org/pircbot.php
 
 Image of the bot's interface:
 
-![Image of the bot's interface]()
+![Image of the bot's interface](https://i.imgur.com/nphQMvk.png)
 
 ## Contact
 

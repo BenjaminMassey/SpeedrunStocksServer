@@ -11,7 +11,7 @@ public class Program {
 
 	public static void main(String[] args) throws IOException {
 		AccountsManager.updateAll();
-		GUIHandler.createWindow("Twitch Bot", "Bean.png"); // Start button on GUI handles other start ups
+		GUIHandler.createWindow("SpeedrunStocksServer", "Bean.png"); // Start button on GUI handles other start ups
 	}
 
 }

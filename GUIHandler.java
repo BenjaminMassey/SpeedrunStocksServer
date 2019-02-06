@@ -29,7 +29,7 @@ public class GUIHandler extends JFrame {
         frame.setIconImage(ico.getImage());
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(250,225);
+        frame.setSize(250,350);
 	}
 	
 	public GUIHandler(String name) {
@@ -83,18 +83,13 @@ public class GUIHandler extends JFrame {
         		// Start the bot
         		else {
         			try{
-        				try{
             				AccountsManager.updateAll();
             				TwitchChat.initialize();
             				startButtonConfig.setText("Stop");
                 			startButtonNonConfig.setText("Stop");
-            			}catch(Exception e) {
-            				System.err.println("Error: " + e);
-            				JOptionPane.showMessageDialog(null,"Failed to initialize...perhaps no internet?");
-            			}
         			}catch(Exception e) {
         				System.err.println("Error: " + e);
-        				JOptionPane.showMessageDialog(null,"Could not connect to LiveSplit - make sure you started the server!");
+        				JOptionPane.showMessageDialog(null,"Could not connect to Twitch - check your internet");
         			}
         		}
         	}
@@ -108,7 +103,7 @@ public class GUIHandler extends JFrame {
 		jp.setLayout(new GridLayout(9,1));
 
 		// Put on a title label
-		jp.add(new JLabel("                BeanBoyBot Twitch Bot                ", SwingConstants.CENTER));
+		jp.add(new JLabel("                SpeedrunStocksServer                ", SwingConstants.CENTER));
 
 		// Entry for what channel the bot should be in
 		JTextField chatChannel = new JTextField(20);
