@@ -17,8 +17,10 @@ public class FileHandler {
 	
 	public static void checkFileAndCreateIfNone(String filename) throws IOException {
 		File f = new File(filename + ".txt");
-		if (!f.exists())
+		if (f != null) {
+			if (!f.exists())
 				f.createNewFile();
+		}
 	}
 	
 	public static void writeToFile(String fileName, String message) {

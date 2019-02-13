@@ -19,7 +19,7 @@ public class TwitchChat extends PircBot {
 	// https://www.youtube.com/channel/UCoQuKOXYxUBeNWbendo3sF
 
 	public static boolean connected = false;
-	//private static String channel; // What channel the bot should talk to/read from
+	private static String channel; // What channel the bot should talk to/read from
 	private static TwitchChat bot;
 	//private static TwitchChat whisperBot;
 
@@ -41,7 +41,8 @@ public class TwitchChat extends PircBot {
 		// Below is common permission but I don't need it yet
 		//bot.sendRawLine("CAP REQ :twitch.tv/tags");
 		bot.sendRawLine("CAP REQ :twitch.tv/commands"); // Need it to parse whispers
-		//bot.joinChannel(channel);
+
+		bot.joinChannel("#beanssbm");
 
 		TimeForPoints TFP = new TimeForPoints();
 		new Thread(TFP).start();
@@ -59,7 +60,7 @@ public class TwitchChat extends PircBot {
 
 	public void onMessage(String channel, String sender, String login, String hostname, String message) {
 		// React to a given message
-		
+		System.out.println("GOT MESSSAGE : " + message);
 		// Here are the commands that should be taken action for
 
 		if (message.equalsIgnoreCase("!SplitGame")) {
@@ -201,6 +202,10 @@ public class TwitchChat extends PircBot {
 
 	private void privateMessage(String person, String message) {
 		sendMessage(AccountsManager.getBotName(), "/w " + person + " " + message);
+	}
+
+	public static void outsideDEBUGMessage(String message) {
+		bot.sendMessage("#beanssbm", message);
 	}
 
 }

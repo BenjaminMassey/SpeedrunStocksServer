@@ -15,8 +15,7 @@ public class GUIHandler extends JFrame {
 	private static GUIHandler frame;
 	private static JPanel panel;
 	private static JPanel main;
-	private static JButton startButtonConfig;
-	private static JButton startButtonNonConfig;
+	private static JButton startButton;
 	
 	public static boolean approval = false;
 	
@@ -29,7 +28,7 @@ public class GUIHandler extends JFrame {
         frame.setIconImage(ico.getImage());
         frame.pack();
         frame.setVisible(true);
-        frame.setSize(250,350);
+        frame.setSize(250,250);
 	}
 	
 	public GUIHandler(String name) {
@@ -74,8 +73,9 @@ public class GUIHandler extends JFrame {
         		if(TwitchChat.connected) {
         			try{
         				TwitchChat.deactivate();
-        				startButtonConfig.setText("Start");
-            			startButtonNonConfig.setText("Start");
+        				TimeForPoints.stop();
+        				HostServer.stop();
+        				startButton.setText("Start");
         			}catch(Exception e) {
         				System.err.println("Oops: " + e);
         			}
@@ -83,14 +83,26 @@ public class GUIHandler extends JFrame {
         		// Start the bot
         		else {
         			try{
-            				AccountsManager.updateAll();
-            				TwitchChat.initialize();
-            				startButtonConfig.setText("Stop");
-                			startButtonNonConfig.setText("Stop");
-        			}catch(Exception e) {
-        				System.err.println("Error: " + e);
-        				JOptionPane.showMessageDialog(null,"Could not connect to Twitch - check your internet");
-        			}
+						AccountsManager.updateAll();
+					}catch(Exception e) {
+						System.err.println("Error on AccountsManager.updateAll(): " + e);
+						JOptionPane.showMessageDialog(null,"Failed to load accounts - check Account.txt / syntax");
+					}
+					try {
+						TwitchChat.initialize();
+					}catch(Exception e) {
+						System.err.println("Error on TwitchChat.initialize(): " + e);
+						JOptionPane.showMessageDialog(null,"Could not connect to Twitch - check your internet");
+					}
+					try {
+						HostServer serv = new HostServer();
+						new Thread(serv).start();
+						serv.start();
+					}catch(Exception e) {
+						System.err.println("Error on starting host server: " + e);
+						JOptionPane.showMessageDialog(null,"Could not create a socket server - check firewall");
+					}
+					startButton.setText("Stop");
         		}
         	}
         });
@@ -100,24 +112,10 @@ public class GUIHandler extends JFrame {
 	private static JPanel generatePanel() {
 
 		JPanel jp = new JPanel();
-		jp.setLayout(new GridLayout(9,1));
+		jp.setLayout(new GridLayout(7,1));
 
 		// Put on a title label
 		jp.add(new JLabel("                SpeedrunStocksServer                ", SwingConstants.CENTER));
-
-		// Entry for what channel the bot should be in
-		JTextField chatChannel = new JTextField(20);
-		if(!AccountsManager.getChatChannel().substring(1).equals("ailed D:"))
-			chatChannel.setText(AccountsManager.getChatChannel().substring(1));
-		jp.add(chatChannel);
-		// Button to confirm channel
-		JButton channelButton = new JButton("Set Chat Channel");
-		jp.add(channelButton);
-		channelButton.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent ae) {
-				AccountsManager.setChatChannel(chatChannel.getText());
-			}
-		});
 
 		// Entry for the bot's name
 		JTextField botName = new JTextField(20);
@@ -153,8 +151,8 @@ public class GUIHandler extends JFrame {
 		jp.add(blank);
 
 		// Button that toggles the bot on and off
-		startButtonNonConfig = generateStartButton();
-		jp.add(startButtonNonConfig);
+		startButton = generateStartButton();
+		jp.add(startButton);
 
 		return jp;
 

@@ -7,37 +7,27 @@ public class AccountsManager {
 	// A part of BeanBoyBot
 	// Copyright 2017 Ben Massey
 	// https://github.com/BenjaminMassey/BeanBoyBot
-	
-	private static String chatChannel;
+
 	private static String botName;
 	private static String botOauth;
 	private static String nl = System.getProperty("line.separator");
 	
 	public static void updateAll() throws IOException {
 		FileHandler.checkFileAndCreateIfNone("Accounts");
-		updateChannel();
 		updateBotName();
 		updateBotOauth();
 	}
-	private static void updateChannel() {
-		chatChannel = FileHandler.readFromFile("Accounts", 0);
-	}
 	private static void updateBotName() {
-		botName = FileHandler.readFromFile("Accounts", 1);
+		botName = FileHandler.readFromFile("Accounts", 0);
 	}
 	private static void updateBotOauth() {
-		botOauth = FileHandler.readFromFile("Accounts", 2);
+		botOauth = FileHandler.readFromFile("Accounts", 1);
 	}
 	private static void write() {
 		while(FileHandler.getFileLength("Accounts") != 0)
 			FileHandler.deleteLineFromFile("Accounts", 0);
-		FileHandler.appendToFile("Accounts", chatChannel + nl);
 		FileHandler.appendToFile("Accounts", botName + nl);
 		FileHandler.appendToFile("Accounts", botOauth);
-	}
-	public static void setChatChannel(String channel) {
-		chatChannel = "#" + channel.toLowerCase();
-		write();
 	}
 	public static void setBotName(String name) {
 		botName = name;
@@ -49,9 +39,6 @@ public class AccountsManager {
 		else
 			botOauth = "oauth:" + oauth;
 		write();
-	}
-	public static String getChatChannel() {
-		return chatChannel;
 	}
 	public static String getBotName() {
 		return botName;
